@@ -1,0 +1,169 @@
+-- Answers for Basic Queries
+
+-- Question 1
+SELECT COUNT(*) AS count
+FROM soccer_venue;
+
+-- Question 2
+SELECT COUNT(DISTINCT team_id) AS count
+FROM player_mast;
+
+-- Question 3
+SELECT COUNT(*)
+FROM goal_details
+WHERE goal_type = 'N';
+
+-- Question 4
+SELECT COUNT(*)
+FROM match_mast
+WHERE results='WIN';
+
+-- Question 5
+SELECT COUNT(*)
+FROM match_mast
+WHERE results='DRAW';
+
+-- Question 6
+SELECT play_date
+FROM match_mast
+WHERE match_no=1;
+
+-- Question 7
+SELECT COUNT(*)
+FROM goal_details
+WHERE goal_type='O';
+
+-- Question 8
+SELECT COUNT(*)
+FROM match_mast
+WHERE results='WIN'
+AND play_stage='G';
+
+-- Question 9
+SELECT COUNT(DISTINCT match_no)
+FROM penalty_shootout;
+
+-- Question 10
+SELECT COUNT(*)
+FROM match_mast
+WHERE decided_by='P'
+AND play_stage='R';
+
+-- Question 11
+SELECT match_no, COUNT(*)
+FROM goal_details
+GROUP BY match_no
+ORDER BY match_no;
+
+-- Question 12
+SELECT match_no, play_date, goal_score
+FROM match_mast
+WHERE stop1_sec=0;
+
+-- Question 13
+SELECT COUNT(DISTINCT match_no)
+FROM match_details
+WHERE win_lose='D'
+AND goal_score=0
+AND play_stage='G';
+
+-- Question 14
+SELECT COUNT(goal_score)
+FROM match_details
+WHERE win_lose='W'
+AND decided_by<>'P'
+AND goal_score=1;
+
+-- Question 15
+SELECT COUNT(*) AS "Player Replaced"
+FROM player_in_out
+WHERE in_out='I';
+
+-- Question 16
+SELECT COUNT(*) AS "Player Replaced"
+FROM player_in_out
+WHERE in_out='I'
+AND play_schedule='NT';
+
+-- Question 17
+SELECT COUNT(*) AS "Player Replaced"
+FROM player_in_out
+WHERE in_out='I'
+AND play_schedule='ST';
+
+-- Question 18
+SELECT COUNT(*) AS "Player Replaced"
+FROM player_in_out
+WHERE in_out='I'
+AND play_schedule='NT'
+AND play_half=1;
+
+-- Question 19
+SELECT COUNT(DISTINCT match_no)
+FROM match_details
+WHERE win_lose='D'
+AND goal_score=0;
+
+-- Question 20
+SELECT COUNT(*)
+FROM player_in_out
+WHERE play_schedule='ET'
+AND in_out='I';
+
+-- Question 21
+SELECT play_half, play_schedule, COUNT(*)
+FROM player_in_out
+WHERE in_out='I'
+GROUP BY play_half, play_schedule
+ORDER BY play_half, play_schedule, COUNT(*) DESC;
+
+-- Question 22
+SELECT COUNT(*) AS "Number of Penalty Kicks"
+FROM penalty_shootout;
+
+-- Question 23
+SELECT COUNT(*) AS "Goal Scored by Penalty Kicks"
+FROM penalty_shootout
+WHERE score_goal='Y';
+
+-- Question 24
+SELECT COUNT(*) AS "Goal missed or saved by Penalty Kicks"
+FROM penalty_shootout
+WHERE score_goal='N';
+
+-- Question 25
+SELECT ps.match_no,
+       sc.country_name AS "Team",
+       pm.player_name,
+       pm.jersey_no,
+       ps.score_goal,
+       ps.kick_no
+FROM soccer_country sc
+JOIN penalty_shootout ps
+    ON ps.team_id = sc.country_id
+JOIN player_mast pm
+    ON ps.player_id = pm.player_id;
+
+-- Question 26
+SELECT sc.country_name,
+       COUNT(ps.*) AS "Number of Shots"
+FROM soccer_country sc
+JOIN penalty_shootout ps
+    ON ps.team_id = sc.country_id
+GROUP BY sc.country_name;
+
+-- Question 27
+SELECT play_half, play_schedule, COUNT(*)
+FROM player_booked
+WHERE play_schedule='NT'
+GROUP BY play_half, play_schedule;
+
+-- Question 28
+SELECT COUNT(*)
+FROM player_booked
+WHERE play_schedule='ST';
+
+-- Question 29
+SELECT COUNT(*)
+FROM player_booked
+WHERE play_schedule='ET';
